@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const scoreDisplay = document.getElementById("score");
     const gridDisplay = document.querySelector(".grid");
+    const resultDisplay = document.getElementById("result");
+
     let squares = [];
     let width = 4;
     let score = 0;
@@ -23,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
       randomNumber = Math.floor(Math.random() * squares.length);
       if (squares[randomNumber].innerHTML == 0) {
         squares[randomNumber].innerHTML = 2;
+        checkForLose()
       } else generate();
     }
 
@@ -144,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
           scoreDisplay.innerHTML = score;
         }
       }
+      checkForWin();
     }
 
     function combineRow() {
@@ -156,6 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
           scoreDisplay.innerHTML = score;
         }
       }
+      checkForWin();
     }
 
 //назначить функции по коду клавиши
@@ -201,7 +206,33 @@ document.addEventListener("DOMContentLoaded", () => {
       generate();
     }
 
+    function checkForWin() {
+      for (let i = 0; i < squares.length; i++) {
+        if (squares[i].innerHTML == 2048) {
+          resultDisplay.innerHTML = "WINNER";
+          document.removeEventListener("keyup", control)
+        }
+      }
+    }
   
+    function checkForLose() {
+      let zeros = 0
+      for (let i = 0; i < squares.length; i++) {
+        if (squares[i].innerHTML == 0) {
+          zeros++;
+        }
+      }
+      if (zeros == 0) {
+        resultDisplay.innerHTML = "LOSER";
+        document.removeEventListener("keyup", control);
+        setTimeout(() => clear(), 3000)
+      }
+    }
+
+    function clear() {
+      clearInterval(myTimer)
+    }
+
     //добавление цветов
     function addColours() {
       for (let i = 0; i < squares.length; i++) {
