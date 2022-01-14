@@ -2,13 +2,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const scoreDisplay = document.getElementById("score");
     const gridDisplay = document.querySelector(".grid");
     const resultDisplay = document.getElementById("result");
+    const bestScoreDisplay = document.getElementById("best")
 
     let squares = [];
     let width = 4;
     let score = 0;
+    // localStorage.setItem('score', score)
+    // localStorage.setItem('best', score);
+
   
+    
     //создание игрового поля
     function createBoard() {
+      
       for (let i = 0; i < width * width; i++) {
         let square = document.createElement("div");
         square.innerHTML = 0;
@@ -19,15 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
       generate();
     }
     createBoard();
-  
+
+
+
     //генерация числа
     function generate() {
-      randomNumber = Math.floor(Math.random() * squares.length);
-      if (squares[randomNumber].innerHTML == 0) {
-        squares[randomNumber].innerHTML = 2;
+    let randomNumber = Math.floor(Math.random() * squares.length) ;
+      if (squares[randomNumber].innerHTML == 0 ) {
+        let value = Math.random() < 0.9 ? 2 : 4;
+        squares[randomNumber].innerHTML = value;
         checkForLose()
-      } else generate();
+      } else value = 0;
     }
+
+
+    // localStorage.setItem('score', value); 
+
+    // value = localStorage.getItem('score')
 
     function moveUp() {
       for (let i = 0; i < 4; i++) {
@@ -51,6 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
         squares[i + width].innerHTML = newColumn[1];
         squares[i + width * 2].innerHTML = newColumn[2];
         squares[i + width * 3].innerHTML = newColumn[3];
+
+
       }
     }
 
@@ -147,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
           scoreDisplay.innerHTML = score;
         }
       }
+      return score
       checkForWin();
     }
 
@@ -160,6 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
           scoreDisplay.innerHTML = score;
         }
       }
+      return score
+
       checkForWin();
     }
 
@@ -213,7 +232,9 @@ document.addEventListener("DOMContentLoaded", () => {
           document.removeEventListener("keyup", control)
         }
       }
+
     }
+
   
     function checkForLose() {
       let zeros = 0
@@ -232,6 +253,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function clear() {
       clearInterval(myTimer)
     }
+
+
 
     //добавление цветов
     function addColours() {
@@ -267,4 +290,20 @@ document.addEventListener("DOMContentLoaded", () => {
   
     let myTimer = setInterval(addColours, 50)
   });
-  
+
+
+  // let highscore = localStorage.getItem("highscore");
+  // bestScoreDisplay = parseInt(highscore)
+  // if (highscore !== null) {
+  //   if (score > highscore) {
+  //     localStorage.setItem("highscore", score)
+  //   }
+  // } else {
+  //   localStorage.setItem("highscore", score)
+  // }
+//   let highscore 
+//   localStorage.setItem("highscore", 0)
+//   let storagedHighScore = localStorage.getItem("highscore");
+// if (storagedHighScore  || score > parseInt(storagedHighScore)) {
+//   localStorage.setItem("highscore", score);
+// }
